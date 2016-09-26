@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algorithm Practice #4: Insertion of dashes inbetween odd numbers</title>
+</head>
+<body>
+	<div id="display"></div>
+	<script>
+
+		var input = prompt("Enter a number: ");
+
+		while(isNaN(input)){
+			input = prompt("Input must be a number: ");
+		}
+
+		input = input.split('');
+
+		var dashed = [];
+		if(input.length > 1){
+			for(var i = 1; i < input.length; i++){
+				dashed.push(input[i-1]);
+
+				if( (input[i]%2 == 1) && (input[i-1]%2 == 1) ){
+					dashed.push('-');
+				}
+			}
+		}
+
+		dashed.push(input[input.length-1]);
+
+		dashed = dashed.join('');
+
+		document.getElementById('display').innerHTML = dashed;
+	</script>
+</body>
+</html>

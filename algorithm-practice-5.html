@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algorithm Practice #5: Guess your number </title>
+</head>
+<body>
+	<div id="display"></div>
+	<script>
+		/*TODO: 
+			1. Description
+			2. Comments
+		*/
+
+		alert("Think of a number between 1 and 100 (inclusive). I'm going to try and guess your number");
+
+		var guessed = false;
+		var guess = 50;
+		var lastGuess = 100;
+		var nextGuess = 0;
+		var numGuesses = 1;
+		var response;
+		var promptString;
+
+		while(!guessed){
+			promptString = "Is " + guess + "your number? \nIf my guess is to high, enter 'H'. If it's to low, enter 'L'. If it's correct, enter 'Y'";
+
+			response = prompt(promptString);
+
+			while(!((response == 'h' || response == 'H') || (response == 'l' || response == 'L') || (response == 'y' || response == 'Y'))){
+				alert("Input Not Valid. Please try again.");
+				response = prompt(promptString);
+			}
+		
+			if(response == 'l' || response == 'L'){
+				if(lastGuess>guess){
+					console.log('test');
+					nextGuess = guess + Math.round((lastGuess-guess)/2);
+				}else{
+					nextGuess = guess + Math.round((guess-lastGuess)/2);
+				}
+			} else if (response == 'h' || response == 'H') {
+				if(lastGuess>guess){
+					nextGuess = guess - Math.round((lastGuess-guess)/2);
+				}else{
+					nextGuess = guess - Math.round((guess-lastGuess)/2);
+				}
+			} else {
+				alert("I guessed your number in " + numGuesses + " guesses.");
+				guessed = true; 
+			}
+
+			numGuesses++;
+			lastGuess = guess;
+			guess = nextGuess;
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algorithm Practice #3: Sum of even fibinacy terms under two million</title>
+</head>
+<body>
+	<div id="display"></div>
+	<script>
+		/*TODO: 
+			1. Description
+			2. Comments
+		*/
+
+		var terms = [1,2];
+
+		var sum = 0;
+		while( terms[terms.length-1] <= 2000000){
+			console.log("Last Term: " + terms[terms.length-1]);
+			if(terms[terms.length-1]%2 == 0){
+				sum += terms[terms.length-1];
+				
+			}
+			console.log("Sum: " + sum);
+			terms.push(terms[terms.length-2] + terms[terms.length-1]);
+		}
+
+		document.getElementById('display').innerHTML = sum;
+	</script>
+</body>
+</html>

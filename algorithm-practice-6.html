@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algorithm Practice #6</title>
+</head>
+<body>
+	<div id="display"></div>
+	<script>
+		/*TODO: 
+			1. Description
+			2. Comments
+		*/
+
+		/* Game Mape 
+
+		Note: Map not up to date
+
+		Dragon Location: North
+		Shield Location: West
+
+
+		North Room:
+			ID: 1 
+			Contains Entity: Dragon
+
+			North door -> Win State
+			South door -> Center Room
+
+		East Room:
+			ID: 2 
+			*Contains Item: Portal Gun
+
+			West door -> Center Room
+
+		West Room: 
+			ID: 3
+			Contains Item: Shield
+
+			East door -> Center Room
+
+		South Room: 
+			ID: 4
+			Contains Item: Shield
+
+			North door -> Center Room
+
+		Center Room:
+			North door -> North Room 
+			East door -> East room
+			South door -> South room
+			West door -> West room
+		*/
+
+		class Player {
+
+			constructor(){
+				this.location = 'centerRoom';
+				this.inventory = [];
+				this.isAlive = true;
+				this.hasWon = false;
+			}
+
+			promptString(){
+				var info = "";
+				var options = "What would you like to do? \nSay 'go' followed by the direction to change rooms. EX: go north\nSay 'take' followed by the item to put it in your inventory. EX: take shield \nSay 'exit' at any time to exit the game.";
+
+				switch(this.location){
+					//To improve I would dynamically generate messages for rooms based on doors and items in room. 
+					case 'centerRoom':
+						info = "Navi: The room your in has four doors. \nThe door to the North has danger sign with fire on it. \nThe door to the East has a sign that says lounge. \nThe door to the South has nothing on it. \nThe door to the West has a sign that says armoury. \nThis room has no items";
+						break;
+
+					case 'northRoom':
+						info = "Navi: The room your in has two doors, one to the north and another to the south. \nThe door to the North's sign says Portal Room. \nThe sign on the door to the south says center.\nThere is also a dragon staring into your soul.\nThis room has no items";
+						break;
+
+					case 'eastRoom':
+						info = "Navi: The room your in has one door to the west that leads back the way you came.\nThis room has no items";
+						break;
+
+					case 'southRoom':
+						info = "Navi: You've entered the secret room.\nThis room has no items";
+						break;
+
+					case 'westRoom':
+						if(this.inventoryContains('anti-dragon shield')){
+							info = "Navi: The room your in has only one door which leads back the way you came. There is a shield hung on the wall. \nThis room has no items";
+						} else{ 
+							info = "Navi: The room your in has only one door which leads back the way you came. There is a shield hung on the wall. \nThis room has one item: 'shield'";
+						}
+						break;
+				}
+
+				return info + "\n\n" + options;
+			}
+
+			inventoryContains(query){
+				for(var item of this.inventory){
+					if(item === query){
+						return true;
+					}
+				}
+			}
+
+			//This could be done better. Function to check current options maybe? 
+			move(movement){
+				switch(this.location){
+					case 'centerRoom':
+						switch(movement){
+							case 'north':
+								this.location = 'northRoom';
+								break;
+
+							case 'east':
+								this.location = 'eastRoom';
+								break;
+
+							case 'south':
+								//Add easter egg with password locked room
+								if(prompt("This door is locked. You need the password.")==='admin'){
+									this.location = 'southRoom';
+								} else {
+									alert("Incorrect password");
+								}
+								break;
+
+							case 'west':
+								this.location = 'westRoom';
+								break;
+
+							default:
+								alert('Invalid movement');
+						}
+						break;
+
+					case 'northRoom':
+						switch(movement){
+							case 'north':
+								if(player.inventoryContains('anti-dragon shield')){
+									this.hasWon = true;
+									alert("Well done! Now go save the princess")
+								} else {
+									alert("Oh no! I forgot to mention that the dragon breaths fire. You died a very painful death. Hope to see you again in another life!");
+									this.isAlive = false;
+								}
+								break;
+
+							case 'south':
+								this.location = 'centerRoom';
+								break;
+
+							default:
+								alert("Invalid movment");
+						}
+						break;
+
+					case 'eastRoom':
+						switch(movement){
+							case 'west':
+								this.location = 'centerRoom';
+								break;
+
+							default:
+								alert("Invalid movment");
+				
+						}
+						break;
+
+					case 'southRoom':
+						switch(movement){
+							case 'north':
+								this.location = 'centerRoom';
+								break;
+
+							default:
+								alert("Invalid movment");
+						}
+						break;
+
+					case 'westRoom':
+						switch(movement){
+							case 'east':
+								this.location = 'centerRoom';
+								break;
+
+							default:
+								alert("Invalid movment");
+						}
+						break;
+				}
+			}
+
+			take(item){
+				switch(this.location){
+					case 'westRoom':
+						switch(item){
+							//To expand I should add room classes and item ids to track item locations 
+								//IE: if item is in room then remove item from room and place in inventory
+							case 'shield': 
+								// Nerd Refrence? 
+								alert('The shield has been addeded to your inventory');
+								this.inventory.push('anti-dragon shield');
+								break;
+
+							default:
+								alert("Item not found");
+						}
+						break;
+				}
+			}
+
+			act(action){
+				if(action!=null){
+					action = action.toLowerCase();
+					action = action.split(' ');
+
+					switch(action[0]){
+						case 'go':
+							
+							this.move(action[1]);
+							break;
+
+						case 'take':
+							this.take(action[1]);
+							break;
+
+						case 'exit':
+							this.isAlive = false;
+							break;
+
+						default:
+							alert('Invalid action');
+					}
+				} 
+			}
+		}
+
+		var player = new Player();
+
+		alert("Navi: Hello, my name is Navi. Great dekus has asked me to help you with this quest. \n\nYou've been kidknapped and transported to a strange world by a which. \n\nThe which brought you here because there is a dragon thats been stealing all of her gold. She is cursed and is incapable of getting past the dragon alone. \n\nThe door to the room containing the portal you need in order to return to dimension C-137 is protected by the dragon. \n\nIf you wish to leave this realm, your only option is to slay the dragon.");
+
+		var running = true;
+
+		//Game Loop
+		while(running){
+		
+			//Player action handling
+			player.act(prompt(player.promptString()));
+
+
+			if(!player.isAlive){
+				running = false;
+				document.getElementById('display').innerHTML = "You died and you are a looser. Refresh the page to try again.";
+			} else if(player.hasWon){
+				running = false;
+				document.getElementById('display').innerHTML = "You won! But did you get the refrences? (Who's navi?)";
+			}
+		}
+
+	</script>
+</body>
+</html>

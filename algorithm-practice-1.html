@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algorithm Practice #1: Reverse String</title>
+</head>
+<body>
+	<div id="display"></div>
+	<script>
+		/*TODO: 
+		1. Description
+		2. Comments
+		*/
+
+
+		var string = prompt("Enter string to be reversed");
+		var reverse = [];
+
+		string = string.split('');
+
+		for(var i = string.length-1; i >= 0; i--){
+			reverse.push(string.pop());
+		}
+
+		reverse = reverse.join('');
+
+		document.getElementById('display').innerHTML = reverse;
+
+	</script>
+</body>
+</html>

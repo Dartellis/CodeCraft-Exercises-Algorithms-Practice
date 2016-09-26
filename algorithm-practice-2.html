@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algorithm Practice #2: Sum of multiples of three and five</title>
+</head>
+<body>
+	<div id="display"></div>
+	<script>
+		/*TODO: 
+			1. Description
+			2. Comments
+		*/
+		
+		var input = prompt("Find the sum of all the multiples of 3 or 5 below: ");
+
+		while(isNaN(input)){
+			input = prompt("Input must be numeric");
+		}
+
+		var max = parseInt(input);
+
+		var multiples = [];
+		for(var i = 0; i < max; i++){
+			if((i%3 == 0) || (i%5 == 0)){
+				multiples.push(i);
+			}
+		}
+
+		var sum = 0;
+		while(multiples.length > 0){
+			sum += multiples.pop();
+		}
+
+		document.getElementById('display').innerHTML = sum;
+	</script>
+</body>
+</html>
